@@ -1,6 +1,6 @@
 import { type Locator, type Page, expect } from "@playwright/test";
 
-export class HomePage{
+export class HomePage {
     readonly page: Page;
     readonly getStartedButton: Locator;
     readonly title: RegExp;

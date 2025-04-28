@@ -1,15 +1,18 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, type Page } from '@playwright/test';
 import { HomePage } from '../pages/home-page';
 import { TopMenuPage } from '../pages/top-menu-page';
+import { SearchPage } from '../pages/search-page';
 
 const URL = 'https://playwright.dev/';
 let homePage: HomePage;
 let topMenuPage: TopMenuPage;
+let searchPage: SearchPage;
 const pageUrl = /.*intro/;
 
 test.beforeEach(async ({page}) => {
     await page.goto(URL);
     homePage = new HomePage(page);
+    searchPage = new SearchPage(page);
 });
 
 async function clickGetStarted(page:Page) {
@@ -34,5 +37,12 @@ test.describe('Playwright Website', () => {
         await topMenuPage.assertPageUrl(pageUrl);
         await topMenuPage.assertNodeDescriptionNotVisible();
         await topMenuPage.assertJavaDescriptionVisible();
-      });
+    });
+
+    test('use search', async ({ page }) => {
+        await searchPage.clickSearch();
+        await searchPage.assertSearchFormVisible();
+        await searchPage.performSearch('click');
+        await searchPage.clearSearch();
+    });
 })
